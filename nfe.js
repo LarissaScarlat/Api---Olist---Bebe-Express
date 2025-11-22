@@ -13,11 +13,11 @@ function loadTokens() {
   }
 }
 
-router.get("/:id", async (req, res) => {
+router.get("/:idNota", async (req, res) => {
   try {
-    const idNotaFiscal = req.params.id;
+    const idNota = req.params.idNota;
 
-    if (!idNotaFiscal) {
+    if (!idNota) {
       return res.status(400).json({ error: "Você deve informar o ID da nota fiscal na URL." });
     }
 
@@ -26,7 +26,9 @@ router.get("/:id", async (req, res) => {
       return res.status(401).json({ error: "Access token não encontrado. Faça a autenticação novamente." });
     }
 
-    const url = `https://www.bling.com.br/Api/v3/nfe/${idNotaFiscal}`;
+    const url = `https://api.tiny.com.br/notas/${idNota}`;
+
+    //const url = `https://www.bling.com.br/Api/v3/nfe/${idNotaFiscal}`;
 
     const response = await axios.get(url, {
       headers: {

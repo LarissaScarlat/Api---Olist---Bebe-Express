@@ -4,7 +4,7 @@ import 'dotenv/config';
 import qs from "querystring"; // Para montar o corpo x-www-form-urlencoded
 import crypto from "crypto";  // Para gerar o parâmetro 'state' aleatório
 import fs from "fs"; // <-- Adicione isso junto às outras imports
-import { redirect } from "react-router-dom";
+import NfeRoutes from "nfe.js";
 
 
 
@@ -88,6 +88,10 @@ app.get("/callback", async (req, res) => {
     res.status(500).send("Erro ao obter tokens de acesso.");
   }
 });
+
+// Routas Olist//
+
+app.use("/nfe", NfeRoutes);
 
 
 // ========================
