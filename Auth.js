@@ -4,6 +4,7 @@ import 'dotenv/config';
 import qs from "querystring"; // Para montar o corpo x-www-form-urlencoded
 import crypto from "crypto";  // Para gerar o parâmetro 'state' aleatório
 import fs from "fs"; // <-- Adicione isso junto às outras imports
+import cors from "cors";
 import NfeRoutes from "./nfe.js";
 
 
@@ -90,7 +91,7 @@ app.get("/callback", async (req, res) => {
 });
 
 // Routas Olist//
-
+app.use(cors());
 app.use("/nfe", NfeRoutes);
 
 
