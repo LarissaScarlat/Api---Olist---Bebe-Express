@@ -4,6 +4,7 @@ import 'dotenv/config';
 import qs from "querystring"; // Para montar o corpo x-www-form-urlencoded
 import crypto from "crypto";  // Para gerar o parâmetro 'state' aleatório
 import fs from "fs"; // <-- Adicione isso junto às outras imports
+import { redirect } from "react-router-dom";
 
 
 
@@ -16,7 +17,11 @@ const PORT = process.env.PORT || 3000;
 app.get("/", (req, res) => {
   const state = crypto.randomBytes(16).toString("hex");
 
-  const authUrl = `${process.env.AUTH_URL}?response_type=code&client_id=${process.env.CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.REDIRECT_URI)}&state=${state}`;
+    const authUrl = `${process.env.AUTH_URL}?response_type=code` +
+                `&client_id=${process.env.CLIENT_ID}` +
+                `&redirect_uri=${encodeURIComponent(process.env.REDIRECT_URI)}` +
+                `&scope=openid` +
+                `&state=${state}`;
 
 
 
@@ -44,10 +49,11 @@ app.get("/callback", async (req, res) => {
     ).toString("base64");
 
     // Monta o corpo da requisição
-    const data = qs.stringify({
-      grant_type: "authorization_code",
-      code: code
-    });
+        const data = qs.stringify({
+        grant_type: "authorization_code",
+        code: code,
+        redirect_uri: process.env.REDIRECT_URI
+        });
 
     // Faz o POST para o endpoint de token
     const response = await axios.post(
@@ -56,7 +62,7 @@ app.get("/callback", async (req, res) => {
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          "Accept":"aplication/json",
+          "Accept":"application/json",
           "Authorization": `Basic ${credentials}`
         }
       }
