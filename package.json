@@ -1,0 +1,25 @@
+{
+  "name": "api---olist---bebe-express",
+  "version": "1.0.0",
+  "main": "Auth.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LarissaScarlat/Api---Olist---Bebe-Express.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LarissaScarlat/Api---Olist---Bebe-Express/issues"
+  },
+  "homepage": "https://github.com/LarissaScarlat/Api---Olist---Bebe-Express#readme",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.13.2",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0"
+  }
+}

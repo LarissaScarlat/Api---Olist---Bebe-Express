@@ -4,7 +4,7 @@ import 'dotenv/config';
 import qs from "querystring"; // Para montar o corpo x-www-form-urlencoded
 import crypto from "crypto";  // Para gerar o parâmetro 'state' aleatório
 import fs from "fs"; // <-- Adicione isso junto às outras imports
-import notaRoute from "./Buscar.js";
+
 
 
 const app = express();
@@ -83,7 +83,6 @@ app.get("/callback", async (req, res) => {
   }
 });
 
-app.use("/nfe", notaRoute);
 
 // ========================
 // INICIA SERVIDOR
