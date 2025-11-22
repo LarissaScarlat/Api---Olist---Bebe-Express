@@ -6,9 +6,8 @@ const router = express.Router();
 
 function loadTokens() {
   try {
-    const raw = fs.readFileSync("tokens.json", "utf8");
-    return JSON.parse(raw);
-  } catch (err) {
+    return JSON.parse(fs.readFileSync("tokens.json", "utf8"));
+  } catch {
     return null;
   }
 }
@@ -18,17 +17,16 @@ router.get("/:idNota", async (req, res) => {
     const idNota = req.params.idNota;
 
     if (!idNota) {
-      return res.status(400).json({ error: "Você deve informar o ID da nota fiscal na URL." });
+      return res.status(400).json({ error: "Você deve informar o ID da nota fiscal." });
     }
 
     const tokens = loadTokens();
-    if (!tokens || !tokens.access_token) {
-      return res.status(401).json({ error: "Access token não encontrado. Faça a autenticação novamente." });
+    if (!tokens?.access_token) {
+      return res.status(401).json({ error: "Sem token. Autentique novamente." });
     }
 
-    const url = `https://api.tiny.com.br/notas/${idNota}`;
+    const url = `https://api.tiny.com.br/public-api/v3/notas/${idNota}`;
 
-    //const url = `https://www.bling.com.br/Api/v3/nfe/${idNotaFiscal}`;
 
     const response = await axios.get(url, {
       headers: {
@@ -44,21 +42,11 @@ router.get("/:idNota", async (req, res) => {
     });
 
   } catch (error) {
-    console.error("❌ Erro ao buscar nota fiscal:");
+    console.error("❌ Erro ao buscar NFe");
 
-    if (error.response) {
-      console.error("Status:", error.response.status);
-      console.error("Headers:", error.response.headers);
-      console.error("Data:", error.response.data);
-    } else {
-      console.error(error.message);
-    }
-
-    const details = error.response?.data || error.message;
-    const statusCode = error.response?.status || 500;
-    return res.status(statusCode).json({
+    return res.status(error.response?.status || 500).json({
       error: "Erro ao consultar nota fiscal",
-      details
+      details: error.response?.data || error.message
     });
   }
 });
